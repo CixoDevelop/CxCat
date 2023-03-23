@@ -14,12 +14,21 @@ kernel_instance_t kernel[1];
 
 ISR(TIMER_TIMEOUT) {
     static uint8_t more_time = 0;
-    uint8_t signal = ANIMATION_TIMEOUT_SIGNAL;
 
-    if (more_time == 0) signal |= HEAD_TIMEOUT_SIGNAL;
-    if (more_time == 0) more_time = HEAD_TIME_SCALE; else --more_time;
+    if (more_time == 0) {
+        more_time = HEAD_TIME_SCALE;
+        kernel_trigger_signal(kernel, ANIMATION_TIMEOUT_SIGNAL);
+    } else {
+        kernel_trigger_signal(kernel, HEAD_TIMEOUT_SIGNAL);
+    }
 
-    kernel_trigger_signal(kernel, signal);
+    timer_set_timeout(
+        (more_time == 0 || more_time == HEAD_TIME_SCALE - 1) ?
+        TIMER_CALC(FRAME_TIME / 2) : 
+        TIMER_CALC(FRAME_TIME)
+    );
+
+    --more_time;
 }
 
 int main() {

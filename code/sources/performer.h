@@ -25,15 +25,15 @@ void performer_create(performer_t *self) {
 
 void performer_process(kernel_instance_t *kernel, process_t *process) {
     performer_t *self = process->parameter;
-    uint_t signal = message_box_receive(process->message_box);
+    uint_t signal = (uintptr_t)message_box_receive(process->message);
 
-    if (signal == USER_INTERACTION_SIGNAL) {
-        if (self->activity + 1 > self.activity) ++self.activity;
+    if (!(signal & USER_INTERACTION_SIGNAL)) {
+        if (self->activity + 1 > self->activity) ++self->activity;
         if (self->state == SLEEP) self->state = AMUSEMENT;
     }
 
-    if (signal == PERFORMER_FRAME_SIGNAL) {
-        if (self->activity - 1 > self.activity) {
+    if (!(signal & PERFORMER_FRAME_SIGNAL)) {
+        if (self->activity - 1 > self->activity) {
             self->state = SLEEP;
         } else {
             --self->activity;
