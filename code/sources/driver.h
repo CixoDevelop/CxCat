@@ -1,8 +1,8 @@
 #ifndef PLATFORM_DRIVER_H_INCLUDED
 #define PLATFORM_DRIVER_H_INCLUDED
 
-#include <aiko.h>
-#include <stdavr.h>
+#include <cx/aiko.h>
+#include <cx/avrroutine.h>
 #include "performer.h"
 
 /** \struct platform_driver_s platform_driver_t

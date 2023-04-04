@@ -1,9 +1,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <aiko.h>
-#include <stdavr.h>
-#include <colorstripe.h>
+#include <cx/aiko.h>
+#include <cx/avrroutine.h>
+#include <cx/colorstripe.h>
 #include "cutes.h"
 #include "signals.h"
 #include "times.h"
@@ -28,9 +28,9 @@ ISR(TIMER_TIMEOUT) {
     kernel_sum_signal(kernel, COLORAROUND_TIMEOUT_SIGNAL);
 
     if (more_time == 0) kernel_sum_signal(kernel, CUTES_TIMEOUT_SIGNAL);
-    if (more_time == 0) more_time = HEAD_TIME_SCALE; else --more_time;
+    if (more_time == 0) more_time = CUTES_FRAME_SCALE; else --more_time;
 
-    timer_set_timeout(TIMER_CALC(FRAME_TIME));
+    timer_set_timeout(TIMER_CALC(COLORAROUND_FRAME_TIME));
 }
 
 /** \fn serial_received_signal_trigger
@@ -135,7 +135,7 @@ int main() {
     timer_set_timeout(TIMER_CALC(0));
 
     /* Init serial */
-    serial_init(BUADRATE(38400));
+    serial_init(BUADRATE(9600));
     serial_set_received_callback(serial_received_signal_trigger);
 
     /* Start main loop */

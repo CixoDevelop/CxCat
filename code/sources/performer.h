@@ -4,8 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-#include <aiko.h>
-#include <stdavr.h>
+#include <cx/aiko.h>
+#include <cx/avrroutine.h>
 #include "signals.h"
 
 /** \enum emotions_e emotions_t

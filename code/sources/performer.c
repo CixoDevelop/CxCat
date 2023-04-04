@@ -1,8 +1,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-#include <aiko.h>
-#include <stdavr.h>
+#include <cx/aiko.h>
+#include <cx/avrroutine.h>
 #include "performer.h"
 #include "signals.h"
 

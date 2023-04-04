@@ -1,8 +1,8 @@
 #include <stdint.h>
 #include <avr/pgmspace.h>
-#include <stdavr.h>
-#include <colorstripe.h>
-#include <aiko.h>
+#include <cx/avrroutine.h>
+#include <cx/colorstripe.h>
+#include <cx/aiko.h>
 #include "coloraround.h"
 #include "signals.h"
 #include "performer.h"

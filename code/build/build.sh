@@ -10,7 +10,7 @@ CC_FLAGS="-Wall -Wextra -Os -std=c11 -fearly-inlining \
     -ffunction-sections -DAIKO_SHORT_NUMBERS -mmcu=atmega8 \
     -I$LIBS/aiko/headers/ -L$LIBS/aiko/build-avr-gcc/ -laiko -DF_CPU=8000000\
     -I$LIBS/colorstripe/headers/ -L$LIBS/colorstripe/build-gcc-avr/ -lcolorstripe\
-    -I$LIBS/stdavr/headers/ -L$LIBS/stdavr/build-avr-gcc/ -lstdavr"
+    -I$LIBS/avrroutine/headers/ -L$LIBS/avrroutine/build-avr-gcc/ -lavrroutine"
 
 SIZE="avr-size"
 SIZE_FLAGS="-C --mcu atmega8"

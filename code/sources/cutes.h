@@ -4,8 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <avr/pgmspace.h>
-#include <stdavr.h>
-#include <aiko.h>
+#include <cx/avrroutine.h>
+#include <cx/aiko.h>
 #include "performer.h"
 #include "signals.h"
 

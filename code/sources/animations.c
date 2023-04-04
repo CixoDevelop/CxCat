@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <stdbool.h>
-#include <colorstripe.h>
+#include <cx/colorstripe.h>
 #include <avr/pgmspace.h>
 #include "animations.h"
 
