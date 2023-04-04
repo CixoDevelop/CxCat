@@ -1,5 +1,5 @@
 SOURCES_DIR=../sources/
-SOURCES=("core.c eyes.c")
+SOURCES=("core.c animations.c cutes.c performer.c coloraround.c driver.c")
 LIBS=../libs
 OBJECTS_DIR=./
 EXEC_BIN=core.bin
