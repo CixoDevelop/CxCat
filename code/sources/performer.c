@@ -13,6 +13,7 @@
 void performer_create(performer_t *self) {
     self->emotions = HAPPY;
     self->direction = STOP;
+    self->control_mode = CONTROL_BY_API;
 }
 
 /** \fn performer_process
@@ -50,6 +51,16 @@ void performer_process(kernel_instance_t *kernel, process_t *process) {
             }
 
             self->direction = direction;
+            return;
+
+        case 'M':
+            char mode = serial[1] - '0';
+
+            if (mode < CONTROL_MODE_MIN || mode > CONTROL_MODE_MAX) {
+                return;
+            }
+
+            self->control_mode = mode;
             return;
     }
 }

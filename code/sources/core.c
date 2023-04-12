@@ -10,6 +10,7 @@
 #include "coloraround.h"
 #include "animations.h"
 #include "driver.h"
+#include "sensors.h"
 
 /** \var kernel
  * This is kernel instance. This is global, to use it in ISR routines.
@@ -63,7 +64,7 @@ int main() {
     driver_stop_engine(right);
 
     /* Operating system prepare */
-    process_t kernel_area[5];
+    process_t kernel_area[7];
     kernel_create_static(
         kernel,
         kernel_area,
@@ -115,6 +116,7 @@ int main() {
     );
 
     /* Init platform driver */
+    kernel_pid_t platform_driver_pid = kernel_get_empty_pid(kernel);
     platform_driver_t platform_driver[1];
     platform_driver_create(
         platform_driver,
@@ -124,12 +126,28 @@ int main() {
     );
     kernel_create_process(
         kernel,
-        kernel_get_empty_pid(kernel),
+        platform_driver_pid,
         CONTINUOUS,
         platform_driver_process,
         platform_driver
     );
 
+    /* Init platform sensors */
+    sensors_t sensors[1];
+    sensors_create(
+        sensors,
+        PIN_4,
+        PIN_5,
+        platform_driver_pid
+    );
+    kernel_create_process(
+        kernel,
+        kernel_get_empty_pid(kernel),
+        CONTINUOUS,
+        sensors_process,
+        sensors
+    );
+    
     /* Init timer */
     timer_enable();
     timer_set_timeout(TIMER_CALC(0));

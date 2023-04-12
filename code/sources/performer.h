@@ -67,6 +67,29 @@ typedef enum direction_e {
  */
 #define DIRECTION_MAX 8
 
+/** \typedef control_mode_e control_mode_t 
+ * This is enum to define mode of the control.
+ */
+typedef enum control_mode_e {
+
+    /* This mean, platform is controled by api */
+    CONTROL_BY_API = 0,
+
+    /* This mean, platform is controled by ai */
+    CONTROL_BY_AI = 1
+
+} control_mode_t;
+
+/** \def CONTROL_MODE_MIN
+ * This is the minimum of control mode enum.
+ */
+#define CONTROL_MODE_MIN 0
+
+/** \def CONTROL_MODE_MAX
+ * This is the max of control mode enum.
+ */
+#define CONTROL_MODE_MAX 1
+
 /** \struct performer_s performer_t
  * This is performer structure, that store all performer states. Performer is
  * main container, that store all states important for platform, like emotions
@@ -74,8 +97,16 @@ typedef enum direction_e {
  * communicate platform with other MCU.
  */
 typedef struct performer_s {
+    
+    /* Emotions state for performer */
     emotions_t emotions;
+
+    /* Direction of platform */
     direction_t direction;
+    
+    /* Platform control mode */
+    control_mode_t control_mode;
+
 } performer_t;
 
 /** \fn performer_create

@@ -1,5 +1,6 @@
 SOURCES_DIR=../sources/
-SOURCES=("core.c animations.c cutes.c performer.c coloraround.c driver.c")
+SOURCES=("core.c animations.c cutes.c performer.c coloraround.c driver.c \
+    sensors.c")
 LIBS=../libs
 OBJECTS_DIR=./
 EXEC_BIN=core.bin
@@ -13,7 +14,7 @@ CC_FLAGS="-Wall -Wextra -Os -std=c11 -fearly-inlining \
     -I$LIBS/avrroutine/headers/ -L$LIBS/avrroutine/build-avr-gcc/ -lavrroutine"
 
 SIZE="avr-size"
-SIZE_FLAGS="-C --mcu atmega8"
+SIZE_FLAGS=""
 
 set -x
 
