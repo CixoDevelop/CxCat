@@ -1,6 +1,6 @@
 SOURCES_DIR=../sources/
 SOURCES=("core.c animations.c cutes.c performer.c coloraround.c driver.c \
-    sensors.c")
+    sensors.c software_timer.c")
 LIBS=../libs
 OBJECTS_DIR=./
 EXEC_BIN=core.bin

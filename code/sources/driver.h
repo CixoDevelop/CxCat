@@ -1,6 +1,8 @@
 #ifndef PLATFORM_DRIVER_H_INCLUDED
 #define PLATFORM_DRIVER_H_INCLUDED
 
+#include <stdint.h>
+#include <stdbool.h>
 #include <cx/aiko.h>
 #include <cx/avrroutine.h>
 #include "performer.h"
@@ -9,6 +11,9 @@
  * This struct store platform driver, that is required to moving platform.
  */
 typedef struct platform_driver_s {
+
+    /* Driver is in waiting state */
+    bool waiting; 
 
     /* Left engine */
     driver_t *left;

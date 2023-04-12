@@ -11,6 +11,7 @@
 #include "animations.h"
 #include "driver.h"
 #include "sensors.h"
+#include "software_timer.h"
 
 /** \var kernel
  * This is kernel instance. This is global, to use it in ISR routines.
@@ -32,6 +33,7 @@ ISR(TIMER_TIMEOUT) {
     if (more_time == 0) more_time = CUTES_FRAME_SCALE; else --more_time;
 
     timer_set_timeout(TIMER_CALC(COLORAROUND_FRAME_TIME));
+    software_timer_feed();
 }
 
 /** \fn serial_received_signal_trigger

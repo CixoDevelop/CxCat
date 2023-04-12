@@ -1,8 +1,11 @@
+#include <stdint.h>
+#include <stdbool.h>
 #include <cx/aiko.h>
 #include <cx/avrroutine.h>
 #include "performer.h"
 #include "driver.h"
 #include "sensors.h"
+#include "software_timer.h"
 
 /** \fn platform_driver_create
  * This function create driver.
@@ -17,12 +20,18 @@ void platform_driver_create(
     driver_t *right,
     performer_t *performer
 ) {
+    self->waiting = false;
     self->left = left;
     self->right = right;
     self->performer = performer;
 }
 
-void platform_driver_set_direction_api(
+/** \fn platform_driver_set_direction
+ * This function set direction of the engines, by the argument.
+ * @param *self Driver object to work on
+ * @param direction Direction to set
+ */
+void platform_driver_set_direction(
     platform_driver_t *self, 
     direction_t direction
 ) {
@@ -71,15 +80,52 @@ void platform_driver_set_direction_api(
             driver_move_forward(self->left);
             driver_move_backward(self->right);
             return;
+    
+        default:
+            return;
     }
-
 }
 
+/** \fn platform_driver_control_ai
+ * This function is useable to control driver by ai, and data received from 
+ * sensors. This require time, to avoid obstacles, by turn back a certain
+ * amount of time.
+ * @param *self Driver object to work on
+ * @param news New event from sensors
+ */
 void platform_driver_control_ai(
     platform_driver_t *self,
     sensors_news_t news
-) { 
+) {
+    if (software_timer_left()) {
+        self->waiting = false;     
+    }
 
+    if (self->waiting) return;
+
+    direction_t direction = FORWARD; 
+
+    switch (news) {
+        case SENSORS_NOT_TRIGGERED:
+        break;
+
+        case LEFT_SENSOR_TRIGGERED:
+            direction = BACKWARD_LEFT;
+            software_timer_set(50);
+        break;
+
+        case RIGHT_SENSOR_TRIGGERED:
+            direction = BACKWARD_RIGHT;
+            software_timer_set(50);
+        break;
+        
+        case BOTH_SENSORS_TRIGGERED:
+            direction = BACKWARD_LEFT;
+            software_timer_set(100);
+        break;
+    }
+
+    platform_driver_set_direction(self, direction);
 }
 
 /** \fn platform_driver_process
@@ -97,7 +143,7 @@ void platform_driver_process(kernel_instance_t *kernel, process_t *process) {
     }
 
     if (self->performer->control_mode == CONTROL_BY_API) {
-        platform_driver_set_direction_api(self, self->performer->direction);
+        platform_driver_set_direction(self, self->performer->direction);
         return;
     }
 
