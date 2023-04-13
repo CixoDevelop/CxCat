@@ -110,16 +110,19 @@ void platform_driver_control_ai(
         break;
 
         case LEFT_SENSOR_TRIGGERED:
+            self->waiting = true;
             direction = BACKWARD_LEFT;
             software_timer_set(50);
         break;
 
         case RIGHT_SENSOR_TRIGGERED:
+            self->waiting = true;
             direction = BACKWARD_RIGHT;
             software_timer_set(50);
         break;
         
         case BOTH_SENSORS_TRIGGERED:
+            self->waiting = true;
             direction = BACKWARD_LEFT;
             software_timer_set(100);
         break;
@@ -138,7 +141,7 @@ void platform_driver_process(kernel_instance_t *kernel, process_t *process) {
     platform_driver_t *self = process->parameter;
     sensors_news_t news = SENSORS_NOT_TRIGGERED;
 
-    if (message_box_is_sendable(process->message)) {
+    if (message_box_is_readable(process->message)) {
         news = (uint8_t)(uintptr_t)(message_box_receive(process->message));
     }
 
